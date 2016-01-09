@@ -1,38 +1,37 @@
 import React from 'react';
-import Konva from 'konva'
+import Konva from 'konva';
 
 export default class CanvasBox extends React.Component{
+    constructor(props){
+        super(props);
+        this._addImageToLayer = this._addImageToLayer.bind(this);
+    }
     componentDidMount(){
-        var stage = new Konva.Stage({
+        const ImageSrc = this.props.ImageSrc;
+        this.stage = new Konva.Stage({
             container: 'myCanvas',
-            width: 800,
-            height: 600
+            width: 640,
+            height: 480
         });
 
-        var layer = new Konva.Layer();
-        stage.add(layer);
+        this.layer = new Konva.Layer();
+        this.stage.add(this.layer);
 
-        // create shape
-        var box = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: 100,
-            height: 50,
-            fill: '#00D2FF',
-            stroke: 'black',
-            strokeWidth: 4,
-            draggable: true
-        });
-        layer.add(box);
-
-        layer.draw();
-
-        // add cursor styling
-        box.on('mouseover', function() {
-            document.body.style.cursor = 'pointer';
-        });
-        box.on('mouseout', function() {
-            document.body.style.cursor = 'default';
+        this._addImageToLayer();
+    }
+    componentDidUpdate(){
+        this._addImageToLayer();
+    }
+    _addImageToLayer(){
+        let self = this;
+        const ImageSrc = this.props.ImageSrc;
+        Konva.Image.fromURL(ImageSrc, function(image){
+            self.stage.setAttrs({
+                width : image.width(),
+                height : image.height()
+            })
+            self.layer.add(image);
+            self.layer.draw();
         });
     }
     render(){

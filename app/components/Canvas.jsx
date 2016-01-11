@@ -1,39 +1,101 @@
 import React from 'react';
-import Konva from 'konva'
+import Konva from 'konva';
+import _ from 'underscore';
 
 export default class CanvasBox extends React.Component{
+    constructor(props){
+        super(props);
+        this._addImageAndTextToLayer = this._addImageAndTextToLayer.bind(this);
+        this._addTextToLayer = this._addTextToLayer.bind(this);
+    }
     componentDidMount(){
-        var stage = new Konva.Stage({
+        const ImageSrc = this.props.ImageSrc;
+        this.stage = new Konva.Stage({
             container: 'myCanvas',
-            width: 800,
-            height: 600
+            width: 640,
+            height: 480
         });
 
-        var layer = new Konva.Layer();
-        stage.add(layer);
+        this.layer = new Konva.Layer();
+        this.stage.add(this.layer);
 
-        // create shape
-        var box = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: 100,
-            height: 50,
-            fill: '#00D2FF',
-            stroke: 'black',
-            strokeWidth: 4,
-            draggable: true
-        });
-        layer.add(box);
+        this._addImageAndTextToLayer();
+    }
+    componentDidUpdate(){
+        this._addImageAndTextToLayer();
+    }
+    _addImageAndTextToLayer(isOnlyImage){
+        let self = this;
+        const ImageSrc = this.props.ImageSrc;
+        if(ImageSrc && ImageSrc !== ''){
+            var image = new Image();
+            image.onload = function(){
+                var _image = (self.image) ? self.image : new Konva.Image();
+                _image.setAttrs({
+                    image : image,
+                    width : image.width,
+                    height : image.height,
+                    x : 0,
+                    y : 0
+                });
 
-        layer.draw();
+                self.stage.setAttrs({
+                    width : image.width,
+                    height : image.height
+                });
 
-        // add cursor styling
-        box.on('mouseover', function() {
-            document.body.style.cursor = 'pointer';
-        });
-        box.on('mouseout', function() {
-            document.body.style.cursor = 'default';
-        });
+                _image.setZIndex(1);
+                if(!self.image){
+                    self.layer.add(_image)
+                };
+                self.image = _image;
+
+                if(!isOnlyImage) self._addTextToLayer();
+
+                self.layer.draw();
+            }
+
+            image.src = ImageSrc;
+        }else{
+            this._addTextToLayer(true);
+        }
+    }
+    _addTextToLayer(isDraw){
+        let self = this;
+        if(!self.texts){
+            self.texts = self.props.Texts.map((t)=>{
+                var _text = new Konva.Text({
+                    id : t.id,
+                    x: 10,
+                    y: 15,
+                    text: t.text,
+                    align : 'center',
+                    fontSize: 30,
+                    fontFamily: 'Calibri',
+                    fill: t.color,
+                    draggable : true
+                });
+                self.layer.add(_text);
+                if(isDraw) self.layer.draw();
+
+                return _text;
+            });
+        }else{
+            const texts = this.props.Texts;
+
+            this.texts.map((t)=>{
+                var obj = _.findWhere(texts, {id : t.id()});
+                if(obj){
+                    t.setZIndex(999);
+                    t.setAttrs({
+                        text : obj.text,
+                        fill : obj.color
+                    });
+                    this.layer.draw();
+                }
+            })
+        }
+
     }
     render(){
         return <div id={this.props.Id}></div>

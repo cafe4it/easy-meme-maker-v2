@@ -7,7 +7,8 @@ var merge = require('webpack-merge');
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
     app: path.join(__dirname, 'app'),
-    build: path.join(__dirname, 'build')
+    build: path.join(__dirname, 'build'),
+    modules : path.join(__dirname,'node_modules')
 };
 
 process.env.BABEL_ENV = TARGET;
@@ -15,17 +16,20 @@ process.env.BABEL_ENV = TARGET;
 var common = {
     entry : PATHS.app,
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        alias :{
+            modal_css : PATHS.modules + '/css-modal/build/modal.css'
+        }
     },
     output : {
         path : PATHS.build,
-        filename : 'bundle.js'
+        filename : (!TARGET || TARGET !== 'build') ? 'bundle.js' : 'bundle.min.js'
     },
     module: {
         loaders: [
             {
                 test: /\.css$/,
-                loaders: ['style', 'css'],
+                loader: "style-loader!css-loader!",
                 include: PATHS.app
             },
             {
@@ -67,5 +71,14 @@ if(TARGET === 'start' || !TARGET){
 }
 
 if(TARGET === 'build') {
-    module.exports = merge(common, {});
+    console.log('begin build....');
+    module.exports = merge(common, {
+        plugins : [
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                }
+            })
+        ]
+    });
 }

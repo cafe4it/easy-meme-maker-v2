@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -22,11 +22,17 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.0.1",
     "css-loader": "^0.23.1",
+    "css-modal": "^1.4.1",
     "es6-promise": "^3.0.2",
     "html-webpack-plugin": "^1.7.0",
     "html-webpack-template": "^2.5.1",
     "konva": "^0.10.0",
+    "react-color-picker": "^3.1.0",
+    "react-modalizer": "0.0.3",
     "style-loader": "^0.13.0",
+    "stylus-loader": "^1.4.3",
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.1",
     "webpack": "^1.12.10",
     "webpack-dev-server": "^1.14.0",
     "webpack-merge": "^0.7.1"

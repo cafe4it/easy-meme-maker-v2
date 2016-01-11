@@ -1,11 +1,29 @@
 import React from 'react';
 import CanvasBox from './Canvas.jsx';
 import QueryString from '../libs/queryString.js';
+import uuid from 'uuid';
+import TextInput from './Text.jsx';
 class App extends React.Component{
     constructor(props){
         super(props);
 
-        this.renderTextImageInput = this.renderTextImageInput.bind(this);
+        this.state = {
+            texts : [
+                {
+                    id : uuid.v4(),
+                    text : 'Text 1',
+                    color : '#FFFFFF'
+                },
+                {
+                    id : uuid.v4(),
+                    text : 'Text 2',
+                    color : '#FFFFFF'
+                }
+            ]
+        }
+
+        this._changeText = this._changeText.bind(this);
+        this._changeColor = this._changeColor.bind(this);
         this._changeImageSrc = this._changeImageSrc.bind(this);
     }
 
@@ -16,13 +34,15 @@ class App extends React.Component{
     }
 
     render(){
-        //this.ImageSrc = this.state.ImageSrc;
+        const texts = this.state.texts;
+
         return <div>
             <h1>Easy meme maker app</h1>
             {this.renderTextImageInput()}
-            {this.renderTextOnTop()}
-            {this.renderTextOnBottom()}
-            <CanvasBox className="canvas" Id="myCanvas" ImageSrc={this.state.ImageSrc} Text1={this.state.Text1 || 'Text 1'} Text2={this.state.Text2 || 'Text 2'}/>
+            {texts.map((text)=>
+                    <TextInput key={text.id} data={text} onEditText={this._changeText} onEditColor={this._changeColor}/>
+            )}
+            <CanvasBox className="canvas" Id="myCanvas" ImageSrc={this.state.ImageSrc} Texts={texts}/>
         </div>
     }
 
@@ -32,29 +52,32 @@ class App extends React.Component{
         })
     }
 
-    _changeText1(e){
-        this.setState({
-            Text1 : e.target.value
+    _changeText(id, value){
+        const texts = this.state.texts.map((text) => {
+            if(text.id === id){
+                text.text = value;
+            }
+            return text;
         });
+
+        this.setState({texts});
     }
 
-    _changeText2(e){
-        this.setState({
-            Text2 : e.target.value
+    _changeColor(id, value){
+        const texts = this.state.texts.map((text) => {
+            if(text.id === id){
+                text.color = value;
+            }
+            return text;
         });
+
+        this.setState({texts});
     }
 
     renderTextImageInput(){
         return <input type="text" placeholder="Image Url" value={this.state.ImageSrc} onChange={this._changeImageSrc}/>
     }
 
-    renderTextOnTop(){
-        return <input type="text" placeholder="Text 1" defaultValue='Text 1' onChange={this._changeText1}/>
-    }
-
-    renderTextOnBottom(){
-        return <input type="text" placeholder="Text 2" defaultValue='Text 2' onChange={this._changeText2}/>
-    }
 }
 
 module.exports = App;

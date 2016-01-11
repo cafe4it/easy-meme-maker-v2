@@ -29,7 +29,7 @@ var common = {
         loaders: [
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader!",
+                loaders: ["style", "css"],
                 include: PATHS.app
             },
             {
@@ -44,6 +44,11 @@ var common = {
             template: 'node_modules/html-webpack-template/index.html',
             title : 'Easy Meme Maker App',
             appMountId: 'app'
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery"
         })
     ]
 }

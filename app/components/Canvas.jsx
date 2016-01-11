@@ -71,7 +71,7 @@ export default class CanvasBox extends React.Component{
                     text: t.text,
                     align : 'center',
                     fontSize: 30,
-                    fontFamily: 'Calibri',
+                    fontFamily: 'Arial',
                     fill: t.color,
                     draggable : true
                 });

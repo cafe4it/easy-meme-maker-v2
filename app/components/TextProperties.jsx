@@ -1,7 +1,5 @@
 import React from 'react';
 
-import ColorPicker from 'react-color-picker';
-
 module.exports = React.createClass({
     displayName : 'TextPropertiesModal',
     render(){

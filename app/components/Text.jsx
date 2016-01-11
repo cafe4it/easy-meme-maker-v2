@@ -1,5 +1,5 @@
 import React from 'react';
-import TextPropertiesModal from './TextProperties.jsx';
+import InputColor from 'react-input-color';
 
 let TextInput = React.createClass({
     displayName : 'TextInput',
@@ -7,13 +7,13 @@ let TextInput = React.createClass({
         const id = this.props.data.id;
         this.props.onEditText(id, e.target.value);
     },
-    _colorDrag(color,cb){
-        this.props.onEditColor(this.props.data.id, color);
+    _colorDrag(e){
+        this.props.onEditColor(this.props.data.id, e.target.value);
     },
     render(){
         return <div>
             <input type="text" defaultValue={this.props.data.text} onChange={this._changeTextValue}/>
-            <TextPropertiesModal/>
+            <input type="color" defaultValue={this.props.data.color} onChange={this._colorDrag}/>
         </div>
     }
 });

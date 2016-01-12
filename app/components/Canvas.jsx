@@ -2,13 +2,14 @@ import React from 'react';
 import Konva from 'konva';
 import _ from 'underscore';
 
-export default class CanvasBox extends React.Component{
-    constructor(props){
+export default class CanvasBox extends React.Component {
+    constructor(props) {
         super(props);
         this._addImageAndTextToLayer = this._addImageAndTextToLayer.bind(this);
         this._addTextToLayer = this._addTextToLayer.bind(this);
     }
-    componentDidMount(){
+
+    componentDidMount() {
         const ImageSrc = this.props.ImageSrc;
         this.stage = new Konva.Stage({
             container: 'myCanvas',
@@ -21,75 +22,121 @@ export default class CanvasBox extends React.Component{
 
         this._addImageAndTextToLayer();
     }
-    componentDidUpdate(){
+
+    componentDidUpdate() {
         this._addImageAndTextToLayer();
     }
-    _addImageAndTextToLayer(isOnlyImage){
+
+    _addImageAndTextToLayer(isOnlyImage) {
         let self = this;
         const ImageSrc = this.props.ImageSrc;
-        if(ImageSrc && ImageSrc !== ''){
+        if (ImageSrc && ImageSrc !== '') {
             var image = new Image();
-            image.onload = function(){
+            image.onload = function () {
                 var _image = (self.image) ? self.image : new Konva.Image();
                 _image.setAttrs({
-                    image : image,
-                    width : image.width,
-                    height : image.height,
-                    x : 0,
-                    y : 0
+                    image: image,
+                    width: image.width,
+                    height: image.height,
+                    x: 0,
+                    y: 0
                 });
 
                 self.stage.setAttrs({
-                    width : image.width,
-                    height : image.height
+                    width: image.width,
+                    height: image.height
                 });
 
                 _image.setZIndex(1);
-                if(!self.image){
+                if (!self.image) {
                     self.layer.add(_image)
-                };
+                }
+                ;
                 self.image = _image;
 
-                if(!isOnlyImage) self._addTextToLayer();
+                if (!isOnlyImage) self._addTextToLayer();
 
                 self.layer.draw();
             }
 
             image.src = ImageSrc;
-        }else{
+        } else {
             this._addTextToLayer(true);
         }
     }
-    _addTextToLayer(isDraw){
+
+    _addTextToLayer(isDraw) {
         let self = this;
-        if(!self.texts){
-            self.texts = self.props.Texts.map((t)=>{
+        if (!self.texts) {
+            self.texts = self.props.Texts.map((t)=> {
                 var _text = new Konva.Text({
-                    id : t.id,
-                    x: 10,
-                    y: 15,
+                    id: t.id,
+                    x: 0,
+                    y: 0,
                     text: t.text,
-                    align : 'center',
+                    align: 'center',
                     fontSize: 30,
                     fontFamily: 'Arial',
                     fill: t.color,
-                    draggable : true
+                    draggable: true
                 });
+
+                var X = 0;
+                switch (t.align) {
+                    case 'left':
+                        X = 0;
+                        break;
+                    case 'right':
+                        X = self.stage.width() - _text.width();
+                        break;
+                    case 'center':
+                        X = (self.stage.width() / 2) - (_text.width() / 2);
+                        break;
+                }
+
+                _text.setAttrs({
+                    x: X,
+                    y: (t.valign === 'top') ? 10 : (self.stage.height() - _text.fontSize() - 10)
+                })
+
                 self.layer.add(_text);
-                if(isDraw) self.layer.draw();
+
+                _text.on('dragend', function (e) {
+                    var x = e.evt.clientX,
+                        y = e.evt.clientY;
+/*                    _text.setAttrs({
+                        x : ((x + _text.width()) > self.stage.width()) ? self.stage.width() - _text.width() : x
+                    });
+                    self.layer.draw();*/
+                })
+                if (isDraw) self.layer.draw();
 
                 return _text;
             });
-        }else{
+        } else {
             const texts = this.props.Texts;
 
-            this.texts.map((t)=>{
-                var obj = _.findWhere(texts, {id : t.id()});
-                if(obj){
+            this.texts.map((t)=> {
+                var obj = _.findWhere(texts, {id: t.id()});
+                if (obj) {
                     t.setZIndex(999);
+                    var X = 0;
+                    switch (obj.align) {
+                        case 'left':
+                            X = 0;
+                            break;
+                        case 'right':
+                            X = self.stage.width() - t.width();
+                            break;
+                        case 'center':
+                            X = (self.stage.width() / 2) - (t.width() / 2);
+                            break;
+                    }
+
                     t.setAttrs({
-                        text : obj.text,
-                        fill : obj.color
+                        text: obj.text,
+                        fill: obj.color,
+                        x: X
                     });
                     this.layer.draw();
                 }
@@ -97,7 +144,8 @@ export default class CanvasBox extends React.Component{
         }
 
     }
-    render(){
+
+    render() {
         return <div id={this.props.Id}></div>
     }
 }

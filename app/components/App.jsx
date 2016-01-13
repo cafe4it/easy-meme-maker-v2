@@ -3,43 +3,51 @@ import CanvasBox from './Canvas.jsx';
 import QueryString from '../libs/queryString.js';
 import uuid from 'uuid';
 import TextInput from './Text.jsx';
+import _ from 'underscore';
 
-class App extends React.Component{
-    constructor(props){
+class App extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
-            texts : [
+            texts: [
                 {
-                    id : uuid.v4(),
-                    text : 'Text 1',
-                    color : '#FFFFFF',
-                    align : 'center',
-                    valign : 'top'
+                    id: uuid.v4(),
+                    title : 'Text 1',
+                    text: 'Text 1',
+                    fontFamily: 'Impact',
+                    fontSize : 30,
+                    fontStyle : 'normal',
+                    color: '#FFFFFF',
+                    align: 'center',
+                    valign: 'top'
                 },
                 {
-                    id : uuid.v4(),
-                    text : 'Text 2',
-                    color : '#FFFFFF',
-                    align : 'center',
-                    valign : 'bottom'
+                    id: uuid.v4(),
+                    title : 'Text 2',
+                    text: 'Text 2',
+                    fontFamily: 'Impact',
+                    fontSize : 30,
+                    fontStyle : 'normal',
+                    color: '#FFFFFF',
+                    align: 'center',
+                    valign: 'bottom'
                 }
             ]
         }
 
-        this._changeText = this._changeText.bind(this);
-        this._changeColor = this._changeColor.bind(this);
+
+        this._changeInput = this._changeInput.bind(this);
         this._changeImageSrc = this._changeImageSrc.bind(this);
-        this._changeAlign = this._changeAlign.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
-            ImageSrc : QueryString.image || ''
+            ImageSrc: QueryString.image || ''
         })
     }
 
-    render(){
+    render() {
         const texts = this.state.texts;
 
         return <div className="container-fluid">
@@ -52,17 +60,35 @@ class App extends React.Component{
                     </div>
                     <div className="row">
                         <div className="col-md-6">
-                            <CanvasBox className="canvas" Id="myCanvas" ImageSrc={this.state.ImageSrc} Texts={texts}/>
+                            <CanvasBox className="canvas" Id="myCanvas" ImageSrc={this.state.ImageSrc} Texts={texts}
+                                       onEditInput={this._changeInput}/>
                         </div>
                         <div className="col-md-6">
                             <div className="row">
                                 <div className="col-md-12">
-                                    {this.renderTextImageInput()}
+                                    <div className="panel panel-default">
+                                        <div className="panel-heading" role="tab" id="headingOne">
+                                            <h4 className="panel-title">
+                                                Image Source
+                                            </h4>
+                                        </div>
+                                        <div className="panel-body">
+                                            {this.renderTextImageInput()}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {texts.map((text)=>
-                                    <TextInput key={text.id} data={text} onEditText={this._changeText} onEditColor={this._changeColor} onEditAlign={this._changeAlign}/>
+                                    <TextInput key={text.id} data={text} onEditInput={this._changeInput}/>
                             )}
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <button className="btn btn-success">
+                                        <span className="glyphicon glyphicon-download-alt"></span> &nbsp;
+                                        Download
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,49 +96,27 @@ class App extends React.Component{
         </div>
     }
 
-    _changeImageSrc(e){
+    _changeInput(textObj) {
+        const texts = this.state.texts.map((text) => {
+            if (text.id === textObj.id) {
+                text = _.extend(text, textObj);
+            }
+            return text;
+        });
+
+        this.setState({texts});
+    }
+
+    _changeImageSrc(e) {
         this.setState({
-            ImageSrc : e.target.value
+            ImageSrc: e.target.value
         })
     }
 
-    _changeText(id, value){
-        const texts = this.state.texts.map((text) => {
-            if(text.id === id){
-                text.text = value;
-            }
-            return text;
-        });
-
-        this.setState({texts});
-    }
-
-    _changeColor(id, value){
-        const texts = this.state.texts.map((text) => {
-            if(text.id === id){
-                text.color = value;
-            }
-            return text;
-        });
-
-        this.setState({texts});
-    }
-
-    _changeAlign(id, value){
-        const texts = this.state.texts.map((text) => {
-            if(text.id === id){
-                text.align = value;
-            }
-            return text;
-        });
-
-        this.setState({texts});
-    }
-
-    renderTextImageInput(){
+    renderTextImageInput() {
         return <div className="form-group">
-            <label>Image Source</label>
-            <input type="text" placeholder="Image Url" className="form-control" value={this.state.ImageSrc} onChange={this._changeImageSrc}/>
+            <input type="text" placeholder="Image Url" className="form-control" value={this.state.ImageSrc}
+                   onChange={this._changeImageSrc}/>
         </div>
     }
 

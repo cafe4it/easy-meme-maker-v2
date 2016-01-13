@@ -1,3 +1,27 @@
 #myCanvas > div{
-    background-color: #000000 !important;
+    background-color: green !important;
 }
+
+.row-input{
+    padding-bottom: 10px !important;
+}
+
+.color_picker > input{
+    visibility: hidden !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.color_picker > span{
+    width: 34px !important;
+    height: 34px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+}
+
+/*
+@font-face {
+    font-family: 'Impact';
+    src:  url('fonts/impact.woff') format('woff');
+}*/

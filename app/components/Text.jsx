@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'underscore';
-require('bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js');
+require('imports?$=jquery!../libs/bootstrap-colorpicker.js');
 require('!style!css!bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css');
 
 let TextInput = React.createClass({

@@ -18,7 +18,7 @@ var common = {
     resolve: {
         extensions: ['', '.js', '.jsx'],
         alias :{
-            modal_css : PATHS.modules + '/css-modal/build/modal.css'
+            color_picker : PATHS.modules + '/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js'
         }
     },
     output : {

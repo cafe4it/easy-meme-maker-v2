@@ -26,7 +26,6 @@
     "bootstrap-colorpicker": "^2.3.0",
     "bootstrap-webpack": "0.0.5",
     "css-loader": "^0.23.1",
-    "css-modal": "^1.4.1",
     "es6-promise": "^3.0.2",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.7.1",

@@ -33,7 +33,7 @@ export default class CanvasBox extends React.Component {
 
     _addImageAndTextToLayer(isOnlyImage) {
         let self = this;
-        const canvasDefaultWidth = 640;
+        const canvasDefaultWidth = $('#myCanvas').width()|| 640;
         const ImageSrc = this.props.ImageSrc;
         if (ImageSrc && ImageSrc !== '') {
             var image = new Image();

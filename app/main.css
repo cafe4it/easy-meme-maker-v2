@@ -3,7 +3,7 @@
 }
 
 .row-input{
-    padding-bottom: 10px !important;
+    padding: 10px !important;
 }
 
 .color_picker > input{
@@ -14,12 +14,18 @@
 }
 
 .color_picker > span{
-    width: 34px !important;
-    height: 34px !important;
+    width: 30px !important;
+    height: 33px !important;
+    padding: 4px !important;
     border: 1px solid #ccc !important;
     border-radius: 4px !important;
 }
 
+.strokeWidth{
+    width: 65px !important;
+    padding: 2px 5px;
+}
+textarea { resize: vertical; }
 /*
 @font-face {
     font-family: 'Impact';

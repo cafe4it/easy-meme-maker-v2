@@ -17,8 +17,10 @@ class App extends React.Component {
                     text: 'Text 1',
                     fontFamily: 'Impact',
                     fontSize : 30,
-                    fontStyle : 'normal',
+                    fontStyle : 'bold',
                     color: '#FFFFFF',
+                    stroke : '#000000',
+                    strokeWidth : 1,
                     align: 'center',
                     valign: 'top'
                 },
@@ -28,8 +30,10 @@ class App extends React.Component {
                     text: 'Text 2',
                     fontFamily: 'Impact',
                     fontSize : 30,
-                    fontStyle : 'normal',
+                    fontStyle : 'bold',
                     color: '#FFFFFF',
+                    stroke : '#000000',
+                    strokeWidth : 1,
                     align: 'center',
                     valign: 'bottom'
                 }

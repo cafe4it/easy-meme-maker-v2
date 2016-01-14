@@ -33,7 +33,7 @@ export default class CanvasBox extends React.Component {
 
     _addImageAndTextToLayer(isOnlyImage) {
         let self = this;
-        const canvasDefaultWidth = $('#myCanvas').width()|| 640;
+        const canvasDefaultWidth = ($('#myCanvas').width() && $('#myCanvas').width() > 640) ? 640 : $('#myCanvas').width();
         const ImageSrc = this.props.ImageSrc;
         if (ImageSrc && ImageSrc !== '') {
             var image = new Image();
@@ -98,9 +98,12 @@ export default class CanvasBox extends React.Component {
                     fontSize: t.fontSize,
                     fontFamily: t.fontFamily,
                     fontStyle : t.fontStyle,
+                    wrap : 'char',
                     fill: t.color,
-                    stroke : 'black',
+                    stroke : t.stroke,
                     strokeWidth : 0.5,
+                    shadow : t.stroke,
+                    shadowBlur : t.strokeWidth,
                     draggable: true
                 });
 
@@ -167,6 +170,8 @@ export default class CanvasBox extends React.Component {
                     t.setAttrs({
                         text: obj.text,
                         fill: obj.color,
+                        shadow : obj.stroke,
+                        shadowBlur : obj.strokeWidth,
                         fontFamily : obj.fontFamily,
                         fontSize : obj.fontSize,
                         fontStyle : obj.fontStyle

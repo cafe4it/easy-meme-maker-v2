@@ -88,7 +88,7 @@ let TextInput = React.createClass({
                 value: 'Arial'
             },
             {
-                id: 'Impact',
+                id: 'MyImpact',
                 value: 'Impact'
             }
         ];

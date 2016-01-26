@@ -26,8 +26,4 @@
     padding: 2px 5px;
 }
 textarea { resize: vertical; }
-/*
-@font-face {
-    font-family: 'Impact';
-    src:  url('fonts/impact.woff') format('woff');
-}*/
+

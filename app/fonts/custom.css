@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'MyImpact';
+    src:  url('./impact.woff') format('woff');
+    src:  url('./impact.ttf') format('ttf');
+    src:  url('./impact.svg') format('svg');
+}

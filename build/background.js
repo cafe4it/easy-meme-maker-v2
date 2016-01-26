@@ -9,7 +9,7 @@ function getClickHandler() {
 };
 
 chrome.contextMenus.create({
-    "title": "Get image url",
+    "title": "Make meme with this image",
     "type": "normal",
     "contexts": ["image"],
     "onclick": getClickHandler()

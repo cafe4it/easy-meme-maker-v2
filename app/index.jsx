@@ -1,6 +1,7 @@
 require('expose?$!expose?jQuery!jquery');
 require("bootstrap-webpack");
 
+require('./fonts/custom.css');
 import './main.css';
 import React from 'react';
 import ReactDOM from 'react-dom';

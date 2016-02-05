@@ -23,6 +23,7 @@ var common = {
     },
     output : {
         path : PATHS.build,
+        publicPath : '/',
         filename : (!TARGET || TARGET !== 'build') ? 'bundle.js' : 'bundle.min.js'
     },
     module: {
@@ -37,12 +38,14 @@ var common = {
                 loaders: ['babel?cacheDirectory'],
                 include: PATHS.app
             },
-            { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
+            {
+                test   : /\.otf|.woff|\.woff2|\.svg|.eot|\.ttf/,
+                loader : 'url-loader'
+            },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 loaders: [
-                    'file?hash=sha512&digest=hex&name=[hash].[ext]',
+                    'file?hash=sha512&digest=hex&name=./images/[hash].[ext]',
                     'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
                 ]
             }

@@ -93,10 +93,9 @@ export default class CanvasBox extends React.Component {
                     id: t.id,
                     x: 0,
                     y: 0,
-                    text: t.text,
+                    text: (t.isUpperCase) ? t.text.toUpperCase() : t.text,
                     align: 'center',
                     fontSize: t.fontSize,
-                    fontFamily: t.fontFamily,
                     fontStyle : t.fontStyle,
                     wrap : 'char',
                     fill: t.color,
@@ -135,7 +134,11 @@ export default class CanvasBox extends React.Component {
                 _text.setAttrs({
                     x: X,
                     y: Y
-                })
+                });
+                
+                _text.setAttrs({
+                    fontFamily : t.fontFamily
+                });
 
                 self.layer.add(_text);
 
@@ -158,6 +161,7 @@ export default class CanvasBox extends React.Component {
 
                 if (isDraw) self.layer.draw();
 
+
                 return _text;
             });
         } else {
@@ -168,7 +172,7 @@ export default class CanvasBox extends React.Component {
                 if (obj) {
                     t.setZIndex(999);
                     t.setAttrs({
-                        text: obj.text,
+                        text: (obj.isUpperCase) ? obj.text.toUpperCase() : obj.text,
                         fill: obj.color,
                         shadow : obj.stroke,
                         shadowBlur : obj.strokeWidth,

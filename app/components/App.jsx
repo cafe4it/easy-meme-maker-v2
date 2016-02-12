@@ -22,7 +22,8 @@ class App extends React.Component {
                     stroke : '#000000',
                     strokeWidth : 1,
                     align: 'center',
-                    valign: 'top'
+                    valign: 'top',
+                    isUpperCase : true,
                 },
                 {
                     id: uuid.v4(),
@@ -35,7 +36,8 @@ class App extends React.Component {
                     stroke : '#000000',
                     strokeWidth : 1,
                     align: 'center',
-                    valign: 'bottom'
+                    valign: 'bottom',
+                    isUpperCase : true,
                 }
             ]
         }
